@@ -1,0 +1,58 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <!-- The 10.0.19041 flavour brings in the WinRT projections. Iris needs
+         Windows.Media.Editing for trimming, which is the same engine the built-in
+         Windows player trims with: frame accurate, hardware accelerated, no extra
+         binaries. SupportedOSPlatformVersion stays lower so the player still runs on
+         older Windows; only trimming needs the newer API, and it checks at runtime. -->
+    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
+    <SupportedOSPlatformVersion>10.0.17763.0</SupportedOSPlatformVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <LangVersion>latest</LangVersion>
+
+    <AssemblyName>Iris</AssemblyName>
+    <RootNamespace>Iris</RootNamespace>
+    <AssemblyTitle>Iris</AssemblyTitle>
+    <Product>Iris</Product>
+    <Version>1.0.0</Version>
+    <FileVersion>1.0.0.0</FileVersion>
+
+    <ApplicationIcon>Assets\iris.ico</ApplicationIcon>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- VideoLAN.LibVLC.Windows ships x86, x64 and arm64 and copies all three under
+         AnyCPU, which triples the output for no benefit. Take x64 only. -->
+    <PlatformTarget>x64</PlatformTarget>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <SelfContained>false</SelfContained>
+    <VlcWindowsX86Enabled>false</VlcWindowsX86Enabled>
+    <VlcWindowsArm64Enabled>false</VlcWindowsArm64Enabled>
+
+    <!-- Startup is dominated by JIT: roughly half a second is spent compiling WPF and
+         our own code before the window can appear. ReadyToRun ships native code for
+         both, which is the single biggest launch-time win available here. -->
+    <PublishReadyToRun>true</PublishReadyToRun>
+    <TieredPGO>true</TieredPGO>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- The default set pulls libvlc.* / libvlccore.*, which drags in the .lib import
+         libraries. Those are link-time only and dead weight at runtime. -->
+    <VlcWindowsX64IncludeFiles Include="libvlc.dll;libvlccore.dll;hrtfs\%2A%2A;lua\%2A%2A;plugins\%2A%2A" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="LibVLCSharp" Version="3.10.1" />
+    <PackageReference Include="LibVLCSharp.WPF" Version="3.10.1" />
+    <PackageReference Include="VideoLAN.LibVLC.Windows" Version="3.0.23.1" />
+  </ItemGroup>
+
+</Project>

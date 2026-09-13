@@ -1,0 +1,121 @@
+<Window x:Class="Iris.AssociationDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:loc="clr-namespace:Iris.Localization"
+        Title="Iris"
+        Width="512"
+        SizeToContent="Height"
+        ResizeMode="NoResize"
+        ShowInTaskbar="False"
+        WindowStartupLocation="CenterOwner"
+        Background="{StaticResource BackgroundBrush}"
+        TextOptions.TextFormattingMode="Ideal"
+        UseLayoutRounding="True">
+
+    <Window.Resources>
+        <Style x:Key="DialogBody" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}" />
+            <Setter Property="FontFamily" Value="Segoe UI Variable Text, Segoe UI" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="LineHeight" Value="20" />
+        </Style>
+    </Window.Resources>
+
+    <StackPanel Margin="30,28,30,22">
+
+        <!-- Heading -->
+        <StackPanel Orientation="Horizontal">
+            <Grid Width="30" Height="30" VerticalAlignment="Center">
+                <Path Data="{StaticResource LogoGeometry}"
+                      Stroke="{StaticResource AccentBrush}" StrokeThickness="4"
+                      Stretch="Uniform" />
+                <Path Data="{StaticResource LogoPlayGeometry}"
+                      Fill="{StaticResource AccentBrush}" Stretch="Uniform"
+                      Width="12" Height="14"
+                      HorizontalAlignment="Center" VerticalAlignment="Center"
+                      Margin="2,0,0,0" />
+            </Grid>
+
+            <TextBlock x:Name="Heading"
+                       Margin="13,0,0,0"
+                       VerticalAlignment="Center"
+                       Foreground="{StaticResource TextPrimaryBrush}"
+                       FontFamily="Segoe UI Variable Display, Segoe UI"
+                       FontSize="18" FontWeight="SemiBold" />
+        </StackPanel>
+
+        <!-- First run is the one moment a German speaker is guaranteed to be looking at
+             an English window, so the label names both languages and the choice sits
+             above the explanation rather than below it. -->
+        <StackPanel x:Name="LanguageRow" Margin="0,20,0,0">
+            <TextBlock Text="Language  ·  Sprache"
+                       Foreground="{StaticResource TextTertiaryBrush}"
+                       FontFamily="Segoe UI Variable Text, Segoe UI"
+                       FontSize="11.5" />
+
+            <Border Style="{StaticResource SegmentTray}" Margin="0,7,0,0">
+                <StackPanel Orientation="Horizontal">
+                    <RadioButton x:Name="EnglishOption"
+                                 Style="{StaticResource SegmentButton}"
+                                 GroupName="Language"
+                                 Content="English"
+                                 Checked="OnEnglishChecked" />
+                    <RadioButton x:Name="GermanOption"
+                                 Style="{StaticResource SegmentButton}"
+                                 GroupName="Language"
+                                 Content="Deutsch"
+                                 Checked="OnGermanChecked" />
+                </StackPanel>
+            </Border>
+        </StackPanel>
+
+        <TextBlock x:Name="Body" Style="{StaticResource DialogBody}" Margin="0,18,0,0" />
+
+        <!-- Quieter secondary paragraph, used for the caveat about defaults -->
+        <TextBlock x:Name="Note"
+                   Style="{StaticResource DialogBody}"
+                   Foreground="{StaticResource TextTertiaryBrush}"
+                   FontSize="12.5"
+                   Margin="0,12,0,0" />
+
+        <Border x:Name="PathBox"
+                Margin="0,16,0,0"
+                Padding="12,9"
+                CornerRadius="7"
+                Background="#14FFFFFF">
+            <TextBlock x:Name="PathText"
+                       Foreground="{StaticResource TextTertiaryBrush}"
+                       FontFamily="Consolas, Cascadia Mono"
+                       FontSize="11.5"
+                       TextTrimming="CharacterEllipsis" />
+        </Border>
+
+        <!-- Actions. Three real columns, so a longer label can never overlap the
+             buttons the way a left/right-aligned overlay would. -->
+        <Grid Margin="0,24,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" MinWidth="16" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Button x:Name="TertiaryButton"
+                    Grid.Column="0"
+                    Style="{StaticResource LinkButton}"
+                    VerticalAlignment="Center"
+                    Visibility="Collapsed"
+                    Click="OnTertiaryClick" />
+
+            <StackPanel Grid.Column="2" Orientation="Horizontal">
+                <Button x:Name="SecondaryButton"
+                        Style="{StaticResource GhostButton}"
+                        Click="OnSecondaryClick" />
+                <Button x:Name="PrimaryButton"
+                        Style="{StaticResource PillButton}"
+                        Margin="10,0,0,0"
+                        Click="OnPrimaryClick" />
+            </StackPanel>
+        </Grid>
+    </StackPanel>
+</Window>

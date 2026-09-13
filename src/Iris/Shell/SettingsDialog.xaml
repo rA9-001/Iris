@@ -1,0 +1,134 @@
+<Window x:Class="Iris.SettingsDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:loc="clr-namespace:Iris.Localization"
+        Title="Iris"
+        Width="512"
+        SizeToContent="Height"
+        ResizeMode="NoResize"
+        ShowInTaskbar="False"
+        WindowStartupLocation="CenterOwner"
+        Background="{StaticResource BackgroundBrush}"
+        TextOptions.TextFormattingMode="Ideal"
+        UseLayoutRounding="True">
+
+    <Window.Resources>
+        <Style x:Key="SectionLabel" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+            <Setter Property="FontFamily" Value="Segoe UI Variable Text, Segoe UI" />
+            <Setter Property="FontSize" Value="13.5" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+        </Style>
+
+        <Style x:Key="SectionNote" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource TextTertiaryBrush}" />
+            <Setter Property="FontFamily" Value="Segoe UI Variable Text, Segoe UI" />
+            <Setter Property="FontSize" Value="12.5" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="LineHeight" Value="18" />
+            <Setter Property="Margin" Value="0,3,0,0" />
+        </Style>
+    </Window.Resources>
+
+    <StackPanel Margin="30,28,30,22">
+
+        <!-- Heading -->
+        <StackPanel Orientation="Horizontal">
+            <Grid Width="30" Height="30" VerticalAlignment="Center">
+                <Path Data="{StaticResource SettingsGeometry}"
+                      Stroke="{StaticResource AccentBrush}"
+                      StrokeThickness="1.7"
+                      StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+                      Stretch="Uniform" />
+            </Grid>
+
+            <TextBlock Text="{loc:Str SettingsTitle}"
+                       Margin="13,0,0,0"
+                       VerticalAlignment="Center"
+                       Foreground="{StaticResource TextPrimaryBrush}"
+                       FontFamily="Segoe UI Variable Display, Segoe UI"
+                       FontSize="18" FontWeight="SemiBold" />
+        </StackPanel>
+
+        <!-- ==================== Language ==================== -->
+        <TextBlock Style="{StaticResource SectionLabel}"
+                   Text="{loc:Str SettingsLanguage}"
+                   Margin="0,24,0,0" />
+
+        <Border Style="{StaticResource SegmentTray}" Margin="0,10,0,0">
+            <StackPanel Orientation="Horizontal">
+                <RadioButton x:Name="EnglishOption"
+                             Style="{StaticResource SegmentButton}"
+                             GroupName="Language"
+                             Content="English"
+                             Checked="OnEnglishChecked" />
+                <RadioButton x:Name="GermanOption"
+                             Style="{StaticResource SegmentButton}"
+                             GroupName="Language"
+                             Content="Deutsch"
+                             Checked="OnGermanChecked" />
+            </StackPanel>
+        </Border>
+
+        <TextBlock Style="{StaticResource SectionNote}"
+                   Text="{loc:Str SettingsLanguageNote}" />
+
+        <!-- ==================== When a file ends ==================== -->
+        <TextBlock Style="{StaticResource SectionLabel}"
+                   Text="{loc:Str SettingsWhenFileEnds}"
+                   Margin="0,22,0,0" />
+
+        <Border Style="{StaticResource SegmentTray}" Margin="0,10,0,0">
+            <StackPanel Orientation="Horizontal">
+                <RadioButton x:Name="EndStopOption"
+                             Style="{StaticResource SegmentButton}"
+                             GroupName="EndAction"
+                             Content="{loc:Str EndStop}"
+                             Checked="OnEndStopChecked" />
+                <RadioButton x:Name="EndRepeatOption"
+                             Style="{StaticResource SegmentButton}"
+                             GroupName="EndAction"
+                             Content="{loc:Str EndRepeat}"
+                             Checked="OnEndRepeatChecked" />
+                <RadioButton x:Name="EndNextOption"
+                             Style="{StaticResource SegmentButton}"
+                             GroupName="EndAction"
+                             Content="{loc:Str EndPlayNext}"
+                             Checked="OnEndNextChecked" />
+            </StackPanel>
+        </Border>
+
+        <TextBlock Style="{StaticResource SectionNote}"
+                   Text="{loc:Str SettingsWhenFileEndsNote}" />
+
+        <!-- ==================== Windows integration ==================== -->
+        <Border Margin="0,22,0,0" Height="1" Background="{StaticResource TrackBrush}" />
+
+        <Grid Margin="0,20,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0" Margin="0,0,16,0">
+                <TextBlock Style="{StaticResource SectionLabel}"
+                           Text="{loc:Str SettingsIntegration}" />
+                <TextBlock Style="{StaticResource SectionNote}"
+                           Text="{loc:Str SettingsIntegrationNote}" />
+            </StackPanel>
+
+            <Button Grid.Column="1"
+                    Style="{StaticResource GhostButton}"
+                    VerticalAlignment="Center"
+                    Content="{loc:Str SettingsIntegrationButton}"
+                    Click="OnIntegrationClick" />
+        </Grid>
+
+        <!-- ==================== Actions ==================== -->
+        <Button HorizontalAlignment="Right"
+                Margin="0,26,0,0"
+                Style="{StaticResource PillButton}"
+                Content="{loc:Str SettingsClose}"
+                Click="OnCloseClick" />
+    </StackPanel>
+</Window>
