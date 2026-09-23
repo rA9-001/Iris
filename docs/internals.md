@@ -684,3 +684,26 @@ the bars use `#01000000` instead — one step of alpha, invisible, and fully hit
 For the same reason `OverlayRoot` paints an opaque backdrop until the first file loads:
 before there is any video, the child HWND has nothing in it and would otherwise show
 whatever happened to be behind the window.
+
+## Deliberately not included
+
+A media library, playlists, streaming, codec packs, auto-update, telemetry, and any kind of
+account. Each of those is what turns a video player into an application you have to manage.
+
+## Known limitations
+
+- **No reverse frame step.** libvlc has a forward step and no reverse one, and a seek is not a
+  substitute: a seek moves the position but does not reliably repaint the video — measured, the
+  picture changed on two of eight single-frame seeks while the clock advanced on every one.
+  Doing it properly means caching decoded frames in memory, which is a real feature rather than
+  a small fix.
+- **No subtitle or audio track selection yet.** libvlc has already parsed those tracks; Iris
+  does not yet ask for them. This is the biggest gap.
+- **Trimming needs Windows 10 version 2004 or newer**, because that is where
+  `Windows.Media.Editing` arrived. Everything else runs on older builds.
+- **The controls are custom-drawn**, so there is no keyboard focus traversal and screen readers
+  see very little of the chrome.
+
+## Startup tracing
+
+`IRIS_TRACE=1` writes a startup phase breakdown to `%TEMP%\iris-trace-<pid>.log`.
